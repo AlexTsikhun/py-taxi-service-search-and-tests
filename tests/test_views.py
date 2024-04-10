@@ -3,7 +3,7 @@ from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse
 
 from taxi.models import Manufacturer, Car, Driver
-from taxi.views import ManufacturerListView, CarListView
+from taxi.views import CarListView
 
 MANUFACTURER_URL = reverse("taxi:manufacturer-list")
 CAR_URL = reverse("taxi:car-list")
@@ -78,8 +78,7 @@ class SearchCarTest(TestCase):
                 model="m2",
                 manufacturer=manufacturer,
             )
-            ]
-        )
+        ])
         [car.drivers.set([driver]) for car in cars]
 
         self.factory = RequestFactory()
@@ -96,7 +95,9 @@ class SearchCarTest(TestCase):
 
         queryset = response.context_data["object_list"]
         self.assertEqual(queryset.count(), 1)
-        self.assertQuerysetEqual(queryset, Car.objects.filter(model__icontains=test_data))
+        self.assertQuerysetEqual(
+            queryset, Car.objects.filter(model__icontains=test_data)
+        )
 
     def test_search_car_no_result(self):
         test_data = "$$$"
@@ -110,7 +111,9 @@ class SearchCarTest(TestCase):
 
         queryset = response.context_data["object_list"]
         self.assertEqual(queryset.count(), 0)
-        self.assertQuerysetEqual(queryset, Car.objects.filter(model__icontains=test_data))
+        self.assertQuerysetEqual(
+            queryset, Car.objects.filter(model__icontains=test_data)
+        )
 
     def test_search_car_all_result(self):
         test_data = ""
@@ -124,4 +127,8 @@ class SearchCarTest(TestCase):
 
         queryset = response.context_data["object_list"]
         self.assertEqual(queryset.count(), 2)
-        self.assertQuerysetEqual(queryset, Car.objects.filter(model__icontains=test_data), ordered=False)
+        self.assertQuerysetEqual(
+            queryset,
+            Car.objects.filter(model__icontains=test_data),
+            ordered=False
+        )

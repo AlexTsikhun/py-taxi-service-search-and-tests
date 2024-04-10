@@ -53,4 +53,3 @@ class ModelTest(TestCase):
         )
         car.drivers.set([driver])
         self.assertEqual(str(car), car.model)
-

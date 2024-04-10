@@ -21,7 +21,8 @@ class AdminSiteTests(TestCase):
 
     def test_driver_add_fieldsets(self):
         """
-        Test the admin add page to ensure that the fields defined in the 'add_fieldsets' attribute
+        Test the admin add page to ensure that the fields
+        defined in the 'add_fieldsets' attribute
         of the admin class are displayed correctly.
         """
         url = reverse("admin:taxi_driver_add")
